@@ -1,299 +1,710 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pluralsight Learner Quotes</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --ps-black: #181818;
-            --ps-dark-grey: #222222;
-            --ps-card-grey: #363636;
-            --ps-pink: #ec008c;
-            --ps-orange: #f05a28;
-            --text-white: #ffffff;
-            --text-grey: #aaaaaa;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brandon Coston | Cloud Security</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    :root {
+      --black:   #080808;
+      --dark:    #111111;
+      --card:    #161616;
+      --border:  #222222;
+      --gold:    #C9A84C;
+      --gold2:   #E8C96A;
+      --white:   #F0EDE8;
+      --muted:   #888888;
+      --mono:    'Space Mono', monospace;
+      --sans:    'Space Grotesk', sans-serif;
+    }
 
-        body {
-            font-family: 'Source Sans Pro', sans-serif;
-            background-color: var(--ps-dark-grey);
-            color: var(--text-white);
-            display: flex;
-            min-height: 100vh;
-        }
+    html { scroll-behavior: smooth; }
 
-        /* --- Sidebar Navigation --- */
-        .sidebar {
-            width: 260px;
-            background-color: var(--ps-black);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            border-right: 1px solid #333;
-            position: fixed;
-            height: 100%;
-            top: 0;
-            left: 0;
-        }
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
 
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 40px;
-            background: linear-gradient(to right, var(--ps-pink), var(--ps-orange));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 1px;
-        }
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 2.5rem;
+      background: rgba(8,8,8,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
 
-        .nav-links {
-            list-style: none;
-        }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      text-decoration: none;
+    }
 
-        .nav-links li {
-            margin-bottom: 20px;
-        }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
 
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-grey);
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            transition: 0.3s;
-        }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
 
-        .nav-links a:hover {
-            color: var(--text-white);
-            transform: translateX(5px);
-        }
+    .nav-links a:hover { color: var(--gold); }
 
-        .nav-links i {
-            width: 30px;
-            font-size: 18px;
-            background: linear-gradient(to bottom right, var(--ps-pink), var(--ps-orange));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 2.5rem 4rem;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+    }
 
-        /* --- Main Content --- */
-        .main-content {
-            margin-left: 260px;
-            padding: 40px;
-            width: 100%;
-        }
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--gold);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
 
-        h1 {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
+    .hero-name {
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 700;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
 
-        .subtitle {
-            color: var(--text-grey);
-            margin-bottom: 40px;
-        }
+    .hero-name span {
+      display: block;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold2) 50%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
 
-        /* --- Input Section --- */
-        .input-section {
-            background-color: var(--ps-card-grey);
-            padding: 20px;
-            border-radius: 8px;
-            display: flex;
-            gap: 15px;
-            margin-bottom: 40px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        }
+    .hero-title {
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+      color: var(--muted);
+      font-weight: 400;
+      margin-bottom: 2rem;
+      max-width: 560px;
+    }
 
-        input[type="text"] {
-            flex-grow: 1;
-            padding: 12px;
-            border-radius: 4px;
-            border: 1px solid #555;
-            background-color: var(--ps-dark-grey);
-            color: white;
-            font-size: 16px;
-        }
+    .hero-tagline {
+      font-size: 1.05rem;
+      color: var(--white);
+      max-width: 540px;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
 
-        input[type="text"]:focus {
-            outline: none;
-            border-color: var(--ps-pink);
-        }
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
 
-        button {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 4px;
-            background: linear-gradient(to right, var(--ps-pink), var(--ps-orange));
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: opacity 0.3s;
-        }
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.75rem;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      border-radius: 3px;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
 
-        button:hover {
-            opacity: 0.9;
-        }
+    .btn-primary {
+      background: var(--gold);
+      color: var(--black);
+      font-weight: 700;
+    }
 
-        /* --- Quote Grid --- */
-        .quote-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
+    .btn-primary:hover {
+      background: var(--gold2);
+      transform: translateY(-1px);
+    }
 
-        .quote-card {
-            background-color: var(--ps-card-grey);
-            padding: 25px;
-            border-radius: 8px;
-            border-left: 4px solid var(--ps-pink);
-            transition: transform 0.2s;
-        }
+    .btn-secondary {
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
 
-        .quote-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
-        }
+    .btn-secondary:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
 
-        .quote-text {
-            font-size: 18px;
-            font-style: italic;
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
+    /* ── SECTIONS ── */
+    section {
+      padding: 5rem 2.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
 
-        .quote-tag {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--ps-orange);
-            font-weight: 700;
-        }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
 
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 70px;
-                padding: 15px 10px;
-            }
-            .nav-text, .logo { display: none; }
-            .sidebar .logo-icon { display: block; margin-bottom: 30px; text-align: center; color: white; font-weight: bold;}
-            .main-content { margin-left: 70px; padding: 20px; }
-            .input-section { flex-direction: column; }
-        }
-    </style>
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .divider {
+      width: 40px;
+      height: 2px;
+      background: var(--gold);
+      margin-bottom: 3rem;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      margin-bottom: 1rem;
+      line-height: 1.8;
+    }
+
+    .about-text p strong {
+      color: var(--white);
+    }
+
+    .cert-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .cert-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+
+    .cert-icon {
+      width: 8px;
+      height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .cert-icon.pending {
+      background: transparent;
+      border: 1px solid var(--muted);
+    }
+
+    .cert-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .cert-status {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-left: auto;
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.75rem;
+      text-decoration: none;
+      display: block;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+    }
+
+    .project-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-3px);
+    }
+
+    .project-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+    }
+
+    .project-name {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    .project-arrow {
+      color: var(--gold);
+      font-size: 1.1rem;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .project-card:hover .project-arrow { opacity: 1; }
+
+    .project-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      padding: 0.25rem 0.6rem;
+      background: rgba(201,168,76,0.08);
+      border: 1px solid rgba(201,168,76,0.2);
+      color: var(--gold);
+      border-radius: 2px;
+    }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-group h3 {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--gold);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .skill-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .skill-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .skill-dot {
+      width: 4px;
+      height: 4px;
+      background: var(--gold);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── CONTACT ── */
+    .contact-inner {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 3rem;
+      text-align: center;
+    }
+
+    .contact-inner p {
+      color: var(--muted);
+      margin-bottom: 2rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 1rem 1.25rem; }
+      .nav-links { gap: 1rem; }
+      section { padding: 3.5rem 1.25rem; }
+      .hero { padding: 6rem 1.25rem 3rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .contact-inner { padding: 2rem 1.25rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
 </head>
 <body>
 
-    <aside class="sidebar">
-        <div class="logo">PLURALSIGHT LABS</div>
-        <div class="logo-icon" style="display:none;">PS</div>
-        
-        <ul class="nav-links">
-            <li>
-                <a href="https://www.pluralsight.com" target="_blank">
-                    <i class="fa-solid fa-globe"></i>
-                    <span class="nav-text">Pluralsight.com</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://www.pluralsight.com/subscribe/newsletter" target="_blank">
-                    <i class="fa-solid fa-envelope-open-text"></i>
-                    <span class="nav-text">Newsletters</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://www.youtube.com/user/pluralsight" target="_blank">
-                    <i class="fa-brands fa-youtube"></i>
-                    <span class="nav-text">YouTube</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://www.tiktok.com/@pluralsight" target="_blank">
-                    <i class="fa-brands fa-tiktok"></i>
-                    <span class="nav-text">TikTok</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://app.pluralsight.com/profile/author/chris-jackson" target="_blank">
-                    <i class="fa-solid fa-user-tie"></i>
-                    <span class="nav-text">About Author</span>
-                </a>
-            </li>
-        </ul>
-    </aside>
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">BC</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
 
-    <main class="main-content">
-        <h1>Guru Inspiration Board</h1>
-        <p class="subtitle">Daily motivation for your Cloud, AI, and Security journey.</p>
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eyebrow">Cloud Security Professional</p>
+  <h1 class="hero-name">
+    Brandon<br>
+    <span>Coston</span>
+  </h1>
+  <p class="hero-title">
+    AWS Certified Cloud Practitioner &nbsp;·&nbsp; Google Cybersecurity Certificate
+  </p>
+  <p class="hero-tagline">
+    I build and secure cloud infrastructure — from IAM least-privilege architectures
+    and OIDC pipelines to automated security monitoring and incident response workflows.
+    Five years in the electrical trades taught me that safety-first thinking
+    and zero-error discipline aren't optional. I brought both into cloud security.
+  </p>
+  <div class="hero-cta">
+    <a href="#projects" class="btn btn-primary">View Projects</a>
+    <a href="mailto:brandon.coston925@gmail.com" class="btn btn-secondary">Get in Touch</a>
+  </div>
+</div>
 
-        <div class="input-section">
-            <input type="text" id="newQuoteInput" placeholder="Enter a new quote for the community...">
-            <button onclick="addQuote()">Add Quote</button>
-        </div>
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label reveal">Background</p>
+  <h2 class="section-title reveal">About Me</h2>
+  <div class="divider reveal"></div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>
+        I transitioned into cloud security from five years as a
+        <strong>journeyman electrical apprentice with IBEW Local 302</strong> —
+        where I specialized in commercial and industrial electrical systems
+        and operated under strict safety codes and zero-error standards.
+      </p>
+      <p>
+        That background shapes how I approach security work. I look at an AWS VPC
+        diagram the way I looked at an industrial electrical blueprint —
+        <strong>methodically mapping architecture, identifying risk, and securing
+        the flow</strong> before anything goes wrong.
+      </p>
+      <p>
+        I'm targeting cloud security, SOC analyst, and junior cloud engineering
+        roles — with a focus on the <strong>Northern Virginia/DC federal and DoD market</strong>
+        and California-based opportunities.
+      </p>
+    </div>
+    <div class="reveal">
+      <ul class="cert-list">
+        <li class="cert-item">
+          <div class="cert-icon"></div>
+          <span class="cert-name">AWS Cloud Practitioner</span>
+          <span class="cert-status">✓ PASSED</span>
+        </li>
+        <li class="cert-item">
+          <div class="cert-icon"></div>
+          <span class="cert-name">Google Cybersecurity Certificate</span>
+          <span class="cert-status">✓ PASSED</span>
+        </li>
+        <li class="cert-item">
+          <div class="cert-icon pending"></div>
+          <span class="cert-name">AWS Solutions Architect Associate</span>
+          <span class="cert-status">IN PROGRESS</span>
+        </li>
+        <li class="cert-item">
+          <div class="cert-icon pending"></div>
+          <span class="cert-name">CompTIA Security+</span>
+          <span class="cert-status">PLANNED</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-        <div class="quote-grid" id="quotesContainer">
-            </div>
-    </main>
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label reveal">Work</p>
+  <h2 class="section-title reveal">Projects</h2>
+  <div class="divider reveal"></div>
+  <div class="projects-grid">
 
-    <script>
-        // Initial Data - 10 Pre-existing Quotes
-        const quotes = [
-            { text: "Security is not a product, but a process.", tag: "Cybersecurity" },
-            { text: "The cloud is just someone else's computer, but with better uptime.", tag: "Cloud Computing" },
-            { text: "AI won't replace you. A person using AI will.", tag: "Artificial Intelligence" },
-            { text: "In AWS, there is no compression algorithm for experience.", tag: "AWS" },
-            { text: "Identity is the new perimeter.", tag: "Security" },
-            { text: "The cloud is about how you do computing, not where you do computing.", tag: "Azure" },
-            { text: "Data is the new oil, but AI is the refinery.", tag: "AI / Data" },
-            { text: "If you think technology can solve your security problems, then you don't understand the problems and you don't understand the technology.", tag: "Cybersecurity" },
-            { text: "Treat your servers like cattle, not pets.", tag: "DevOps" },
-            { text: "Failure is not the opposite of success; it’s part of success. Keep building.", tag: "General" }
-        ];
+    <a class="project-card reveal" href="https://github.com/mmcos925-prog/aws-cloud-security-lab" target="_blank" rel="noopener">
+      <div class="project-header">
+        <span class="project-name">AWS Cloud Security Lab</span>
+        <span class="project-arrow">↗</span>
+      </div>
+      <p class="project-desc">
+        Hands-on cloud security project covering IAM least-privilege design,
+        S3 exposure simulation and remediation, EC2 network auditing, CloudTrail
+        investigation, and a secretless CI/CD pipeline via GitHub Actions OIDC.
+      </p>
+      <div class="project-tags">
+        <span class="tag">AWS IAM</span>
+        <span class="tag">S3</span>
+        <span class="tag">CloudTrail</span>
+        <span class="tag">OIDC</span>
+        <span class="tag">GitHub Actions</span>
+      </div>
+    </a>
 
-        const container = document.getElementById('quotesContainer');
-        const input = document.getElementById('newQuoteInput');
+    <a class="project-card reveal" href="https://github.com/mmcos925-prog/job-scraper" target="_blank" rel="noopener">
+      <div class="project-header">
+        <span class="project-name">Automated Job Scraper</span>
+        <span class="project-arrow">↗</span>
+      </div>
+      <p class="project-desc">
+        A scheduled GitHub Actions pipeline that searches multiple job boards,
+        applies multi-layer filtering (experience, location, salary, relevance),
+        tracks seen jobs, and delivers a daily HTML email digest.
+      </p>
+      <div class="project-tags">
+        <span class="tag">Python</span>
+        <span class="tag">GitHub Actions</span>
+        <span class="tag">Adzuna API</span>
+        <span class="tag">USAJobs API</span>
+        <span class="tag">Gmail SMTP</span>
+      </div>
+    </a>
 
-        // Function to render quotes to the DOM
-        function renderQuotes() {
-            container.innerHTML = ""; // Clear current list
-            quotes.forEach(quote => {
-                const card = document.createElement('div');
-                card.className = 'quote-card';
-                card.innerHTML = `
-                    <div class="quote-text">"${quote.text}"</div>
-                    <div class="quote-tag">${quote.tag}</div>
-                `;
-                container.prepend(card); // Add new ones to the top
-            });
-        }
+    <a class="project-card reveal" href="https://github.com/mmcos925-prog/clip-manager" target="_blank" rel="noopener">
+      <div class="project-header">
+        <span class="project-name">Clip Manager</span>
+        <span class="project-arrow">↗</span>
+      </div>
+      <p class="project-desc">
+        An event-driven file management system that detects new media files,
+        triggers a tkinter GUI for classification, renames files with structured
+        naming, and sends real-time Discord webhook notifications.
+      </p>
+      <div class="project-tags">
+        <span class="tag">Python</span>
+        <span class="tag">tkinter</span>
+        <span class="tag">Discord Webhooks</span>
+        <span class="tag">Task Scheduler</span>
+        <span class="tag">Windows</span>
+      </div>
+    </a>
 
-        // Function to add a new quote
-        function addQuote() {
-            const text = input.value.trim();
-            if (text) {
-                // Add to array
-                quotes.push({ text: text, tag: "Learner Contribution" });
-                // Clear input
-                input.value = "";
-                // Re-render
-                renderQuotes();
-            } else {
-                alert("Please enter a quote before posting!");
-            }
-        }
+    <a class="project-card reveal" href="https://github.com/mmcos925-prog/gaming-stats-tracker" target="_blank" rel="noopener">
+      <div class="project-header">
+        <span class="project-name">Gaming Stats Tracker</span>
+        <span class="project-arrow">↗</span>
+      </div>
+      <p class="project-desc">
+        Automated data collection system pulling player statistics from the
+        Riot Games API and tracker.gg, logging performance history to CSV,
+        and generating weekly reports on a nightly schedule.
+      </p>
+      <div class="project-tags">
+        <span class="tag">Python</span>
+        <span class="tag">Riot API</span>
+        <span class="tag">tracker.gg</span>
+        <span class="tag">CSV Logging</span>
+        <span class="tag">Task Scheduler</span>
+      </div>
+    </a>
 
-        // Initial Render
-        renderQuotes();
-    </script>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label reveal">Technical</p>
+  <h2 class="section-title reveal">Skills</h2>
+  <div class="divider reveal"></div>
+  <div class="skills-grid reveal">
+
+    <div class="skill-group">
+      <h3>Cloud</h3>
+      <div class="skill-items">
+        <div class="skill-item"><div class="skill-dot"></div>AWS EC2</div>
+        <div class="skill-item"><div class="skill-dot"></div>AWS S3</div>
+        <div class="skill-item"><div class="skill-dot"></div>AWS IAM</div>
+        <div class="skill-item"><div class="skill-dot"></div>AWS VPC</div>
+        <div class="skill-item"><div class="skill-dot"></div>CloudTrail</div>
+        <div class="skill-item"><div class="skill-dot"></div>GuardDuty</div>
+        <div class="skill-item"><div class="skill-dot"></div>Security Hub</div>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <h3>Security</h3>
+      <div class="skill-items">
+        <div class="skill-item"><div class="skill-dot"></div>IAM least-privilege</div>
+        <div class="skill-item"><div class="skill-dot"></div>OIDC federation</div>
+        <div class="skill-item"><div class="skill-dot"></div>Security Groups / NACLs</div>
+        <div class="skill-item"><div class="skill-dot"></div>Incident investigation</div>
+        <div class="skill-item"><div class="skill-dot"></div>Access reviews</div>
+        <div class="skill-item"><div class="skill-dot"></div>MFA enforcement</div>
+        <div class="skill-item"><div class="skill-dot"></div>CIS Benchmarks</div>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <h3>DevOps</h3>
+      <div class="skill-items">
+        <div class="skill-item"><div class="skill-dot"></div>GitHub Actions</div>
+        <div class="skill-item"><div class="skill-dot"></div>CI/CD pipelines</div>
+        <div class="skill-item"><div class="skill-dot"></div>Git</div>
+        <div class="skill-item"><div class="skill-dot"></div>Python</div>
+        <div class="skill-item"><div class="skill-dot"></div>Bash / Linux CLI</div>
+        <div class="skill-item"><div class="skill-dot"></div>SSH</div>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <h3>IT Support</h3>
+      <div class="skill-items">
+        <div class="skill-item"><div class="skill-dot"></div>Help desk triage</div>
+        <div class="skill-item"><div class="skill-dot"></div>Ticket management</div>
+        <div class="skill-item"><div class="skill-dot"></div>Account provisioning</div>
+        <div class="skill-item"><div class="skill-dot"></div>Network troubleshooting</div>
+        <div class="skill-item"><div class="skill-dot"></div>Windows / macOS</div>
+        <div class="skill-item"><div class="skill-dot"></div>Technical documentation</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label reveal">Connect</p>
+  <h2 class="section-title reveal">Get in Touch</h2>
+  <div class="divider reveal"></div>
+  <div class="contact-inner reveal">
+    <p>
+      I'm actively seeking cloud security, SOC analyst, and IT support roles.
+      Open to remote and California-based opportunities.
+    </p>
+    <div class="contact-links">
+      <a href="mailto:brandon.coston925@gmail.com" class="btn btn-primary">Email Me</a>
+      <a href="https://github.com/mmcos925-prog" target="_blank" rel="noopener" class="btn btn-secondary">GitHub</a>
+      <a href="https://www.linkedin.com/in/brandon-coston" target="_blank" rel="noopener" class="btn btn-secondary">LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>brandoncoston.tech &nbsp;·&nbsp; Built with GitHub Pages</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
 </body>
 </html>
